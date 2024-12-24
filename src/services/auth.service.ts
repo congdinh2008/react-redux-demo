@@ -13,12 +13,12 @@ const login = async (data: any) => {
         localStorage.setItem('userInformation', JSON.stringify(response.data.userInformation));
     }
 
-    return response;
+    return response.data;
 }
 
 const register = async (data: any) => {
     const response = await api.post('/register', data);
-    return response;
+    return response.data;
 }
 
 const logout = () => {

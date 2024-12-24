@@ -2,8 +2,13 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthService } from '../../services/auth.service';
+import { AppDispatch } from '../../app/store';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/auth/auth.thunk';
 
 const Login = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
     const navigate = useNavigate();
     const initialValues = {
         username: '',
@@ -20,13 +25,8 @@ const Login = () => {
 
     const onSubmit = async (values: any) => {
         try {
-            const response = await AuthService.login(values);
-            if (response) {
-                console.log('Login success');
-                navigate('/');
-            } else {
-                console.log('Login failed');
-            }
+            await dispatch(login(values));
+            navigate('/');
         } catch (error) {
             console.log('Error:', error);
         }

@@ -2,8 +2,12 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { AuthService } from '../../services/auth.service';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../app/store';
+import { register } from '../../features/auth/auth.thunk';
 
 const Register = () => {
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const initialValues = {
         firstName: '',
@@ -38,13 +42,8 @@ const Register = () => {
 
     const onSubmit = async (values: any) => {
         try {
-            const response = await AuthService.register(values);
-            if (response) {
-                console.log('Register success');
-                navigate('/auth/login');
-            } else {
-                console.log('Register failed');
-            }
+            await dispatch(register(values));
+            navigate('/');
         } catch (error) {
             console.log('Error:', error);
         }

@@ -1,9 +1,14 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AppDispatch } from "../../app/store";
+import { logout } from "../../features/auth/auth-slice";
 
 function Header() {
-    const isAuthenticated = false;
+    const { isAuthenticated } = useSelector((state: any) => state.auth);
+    const dispatch = useDispatch<AppDispatch>();
 
     const onLogout = () => {
+        dispatch(logout());
     }
     return (
         <header className="flex justify-between items-center px-4 bg-blue-500 text-white">
